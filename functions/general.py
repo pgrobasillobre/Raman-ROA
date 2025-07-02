@@ -1,10 +1,12 @@
 import argparse
 import sys
+import os
 
+# -------------------------------------------------------------------------------------
 def read_command_line(argv, inp):
     parser = argparse.ArgumentParser(description="Raman/ROA Data Extraction")
     parser.add_argument('-w', choices=['raman', 'roa'], required=True, help="Type of analysis: raman or roa")
-    parser.add_argument('-i', dest='adf_file', required=True, help="ADF file to process")
+    parser.add_argument('-i', dest='ams_file', required=True, help="AMS file to process")
     parser.add_argument('-freqmin', type=float, required=True, help="Minimum frequency")
     parser.add_argument('-freqmax', type=float, required=True, help="Maximum frequency")
     parser.add_argument('-incoming_field_ev', type=float, required=True, help="Incoming field energy (eV)")
@@ -20,9 +22,26 @@ def read_command_line(argv, inp):
 
     inp.raman = args.w == 'raman'
     inp.roa = args.w == 'roa'
-    inp.adf_file = args.adf_file
+    inp.ams_file = args.ams_file
     inp.norm = args.norm
     inp.pol = args.pol if inp.roa else None
-    inp.freqmin = args.freqmin
-    inp.freqmax = args.freqmax
+    inp.freq_min = args.freqmin
+    inp.freq_max = args.freqmax
     inp.incoming_field_ev = args.incoming_field_ev
+
+    # Check if the AMS file exists
+    check_file_exists(inp.ams_file)
+# -------------------------------------------------------------------------------------
+def check_file_exists(infile):
+   """
+   Checks if a given file exists.
+
+   Args:
+       infile (str): Path to the input file.
+
+   Returns:
+       None: Raises an error if the file is not found.
+   """
+
+   if (not os.path.exists(infile)): output.error('file "' + infile + '" not found')
+# -------------------------------------------------------------------------------------

@@ -1,7 +1,8 @@
 import sys
 
 from classes import input_class
-from functions import general, output
+from functions import general, output, process
+
 
 # ============================================================================================================ #
 #                                        Program by Pablo Grobas Illobre                                       #
@@ -12,7 +13,7 @@ from functions import general, output
 
 def main():
     """
-    Main function to initialize input parameters and execute the appropriate data extraction.
+    Main function to initialize input parameters and execute the appropriate Raman/ROA data extraction.
 
     Returns:
         None: Calls the relevant function based on the user's input.
@@ -24,7 +25,7 @@ def main():
 
         # Select and execute the appropriate task
         if inp.raman:
-            pass
+            process.raman(inp)
         elif inp.roa:
             pass
 

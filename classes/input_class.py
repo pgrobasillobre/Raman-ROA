@@ -21,4 +21,8 @@ class input_class:
 
       # -- Other options
       self.norm = False # Normalize the data
+      self.pol = ""
+      self.incoming_field_ev = 0.0
+
+
       
