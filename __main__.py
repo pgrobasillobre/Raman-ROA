@@ -27,7 +27,7 @@ def main():
         if inp.raman:
             process.raman(inp)
         elif inp.roa:
-            pass
+            process.roa(inp)
 
     except Exception as e:
         output.error(f"An error occurred: {e}")
