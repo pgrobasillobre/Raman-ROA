@@ -112,6 +112,33 @@ def raman(inp):
 
         return freqs, raman_spec
     # -------------------------------------------------------------------------------------
-    # Use the function
+    def plot_raman_spectrum(freqs, raman_spec, normalize=False):
+        """
+        Plots and saves the Raman spectrum as a PNG file.
+    
+        Args:
+            freqs (numpy.ndarray): Array of frequency values for the spectrum.
+            raman_spec (numpy.ndarray): Array of processed Raman intensities.
+            normalize (bool): If True, use 'arb. units' for the y-label and save as *_NORM.png.
+    
+        Returns:
+            None
+        """
+        import matplotlib.pyplot as plt
+    
+        plt.figure(figsize=(10, 6))
+        plt.plot(freqs, raman_spec, linestyle='-')
+        plt.gca().invert_xaxis()
+        plt.xlabel('Wavenumber (cm$^{-1}$)')
+        plt.ylabel('Raman Intensity (arb. units)' if normalize else 'Raman Intensity (a.u.)')
+        plt.grid(True)
+    
+        output_filename = 'RAMAN_spectrum_NORM.png' if normalize else 'RAMAN_spectrum.png'
+        plt.savefig(output_filename, dpi=300, bbox_inches='tight')
+        plt.show()
+    # -------------------------------------------------------------------------------------
+    # Read vibrational frequencies and intensities from the AMS file,
+    # then generate, process, plot, and save the Raman spectrum.
     freq_cm, raman_int = read_raman_data(inp)
     freqs, raman_spec = generate_and_save_raman_spectrum(inp, freq_cm, raman_int)
+    plot_raman_spectrum(freqs, raman_spec, normalize=inp.norm)
