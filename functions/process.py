@@ -128,11 +128,11 @@ def raman(inp):
         """
     
         plt.figure(figsize=(10, 6))
-        plt.plot(freqs, raman_spec, linestyle='-')
+        plt.plot(freqs, raman_spec, linestyle='-', color='blue')
         plt.gca().invert_xaxis()
         plt.xlabel('Wavenumber (cm$^{-1}$)')
         plt.ylabel('Raman Intensity (arb. units)' if normalize else 'Raman Intensity (a.u.)')
-        plt.grid(True)
+        plt.grid(False)
     
         output_filename = 'RAMAN_spectrum_NORM.png' if normalize else 'RAMAN_spectrum.png'
         plt.savefig(output_filename, dpi=300, bbox_inches='tight')
@@ -256,12 +256,12 @@ def roa(inp):
         import matplotlib.pyplot as plt
     
         plt.figure(figsize=(10, 6))
-        plt.plot(freqs, roa_spec, linestyle='-')
+        plt.plot(freqs, roa_spec, linestyle='-', color='blue')
         plt.gca().invert_xaxis()
         plt.xlabel('Wavenumber (cm$^{-1}$)')
         plt.ylabel('I$_R$ - I$_L$ (arb. units)' if normalize else 'I$_R$ - I$_L$ (a.u.)')
         plt.title(f'ROA Spectrum - {pol.upper()}')
-        plt.grid(True)
+        plt.grid(False)
     
         output_filename = f'ROA_spectrum_{pol}_NORM.png' if normalize else f'ROA_spectrum_{pol}.png'
         plt.savefig(output_filename, dpi=300, bbox_inches='tight')
