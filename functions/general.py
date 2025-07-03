@@ -2,13 +2,15 @@ import argparse
 import sys
 import os
 
+from functions import output
+
 # -------------------------------------------------------------------------------------
 def read_command_line(argv, inp):
     parser = argparse.ArgumentParser(description="Raman/ROA Data Extraction")
     parser.add_argument('-w', choices=['raman', 'roa'], required=True, help="Type of analysis: raman or roa")
     parser.add_argument('-i', dest='ams_file', required=True, help="AMS file to process")
-    parser.add_argument('-freqmin', type=float, required=True, help="Minimum frequency")
-    parser.add_argument('-freqmax', type=float, required=True, help="Maximum frequency")
+    parser.add_argument('-freqmin', type=float, required=True, help="Minimum frequency (nm)")
+    parser.add_argument('-freqmax', type=float, required=True, help="Maximum frequency (nm)")
     parser.add_argument('-incoming_field_ev', type=float, required=True, help="Incoming field energy (eV)")
     parser.add_argument('-pol', choices=['x', 'y', 'z', 'back'], help="Polarization for ROA (required for roa)")
     parser.add_argument('-norm', action='store_true', help="Apply normalization (optional)")

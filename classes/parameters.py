@@ -1,4 +1,4 @@
-class parameters_class:
+class parameters:
     """
     Manages user-defined parameters for Raman/ROA data extraction
     """
