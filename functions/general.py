@@ -6,6 +6,15 @@ from functions import output
 
 # -------------------------------------------------------------------------------------
 def read_command_line(argv, inp):
+
+    """
+    Parses command-line arguments and populates the input parameters object.
+
+    Returns:
+        None: Populates the inp object with parsed values. 
+        Raises an error if required arguments are missing or the AMS file does not exist.
+    """
+
     parser = argparse.ArgumentParser(description="Raman/ROA Data Extraction")
     parser.add_argument('-w', choices=['raman', 'roa'], required=True, help="Type of analysis: raman or roa")
     parser.add_argument('-i', dest='ams_file', required=True, help="AMS file to process")

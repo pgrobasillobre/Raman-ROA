@@ -1,11 +1,11 @@
 class input_class:
    """
-   Manages user-defined parameters for Raman/ROA data extraction
+   Stores and manages user-defined parameters for Raman/ROA data extraction.
    """
 
    def __init__(self):
       """
-      Initializes input parameters for Raman/ROA data extraction.
+      Initializes all input parameters for Raman/ROA data extraction to their default values.
       """
 
       # -- Raman or ROA?

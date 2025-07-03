@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from classes import parameters
 
 param = parameters.parameters()
-# -------------------------------------------------------------------------------------
+# =====================================================================================
 def conv_stick(freqs, freq_peaks, int_peaks):
     """
     Convolves stick spectrum with a Lorentzian broadening.
@@ -24,7 +24,7 @@ def conv_stick(freqs, freq_peaks, int_peaks):
     for peak in range(len(freq_peaks)):
         spectrum += (param.fwhm / ((freqs - freq_peaks[peak])**2 + param.fwhm)) * int_peaks[peak]
     return spectrum
-# -------------------------------------------------------------------------------------
+# =====================================================================================
 def raman(inp):
     """
     Extraction of Raman data and processing.
@@ -116,7 +116,7 @@ def raman(inp):
     # -------------------------------------------------------------------------------------
     def plot_raman_spectrum(freqs, raman_spec, normalize=False):
         """
-        Plots and saves the Raman spectrum as a PNG file.
+        Plot and save the Raman spectrum as a PNG file.
     
         Args:
             freqs (numpy.ndarray): Array of frequency values for the spectrum.
@@ -126,7 +126,6 @@ def raman(inp):
         Returns:
             None
         """
-        import matplotlib.pyplot as plt
     
         plt.figure(figsize=(10, 6))
         plt.plot(freqs, raman_spec, linestyle='-')
@@ -144,7 +143,7 @@ def raman(inp):
     freq_cm, raman_int = read_raman_data(inp)
     freqs, raman_spec = generate_and_save_raman_spectrum(inp, freq_cm, raman_int)
     plot_raman_spectrum(freqs, raman_spec, normalize=inp.norm)
-# -------------------------------------------------------------------------------------
+# =====================================================================================
 def roa(inp):
     """
     Extraction of ROA data and processing.
@@ -241,11 +240,37 @@ def roa(inp):
     
         return freqs, roa_spec
     # -------------------------------------------------------------------------------------
+    def plot_roa_spectrum(freqs, roa_spec, pol, normalize=False):
+        """
+        Plot and save the ROA spectrum as a PNG file.
+    
+        Args:
+            freqs (numpy.ndarray): Array of frequency values for the spectrum.
+            roa_spec (numpy.ndarray): Array of processed ROA intensities.
+            pol (str): Polarization label (e.g., 'x', 'y', 'z', 'back').
+            normalize (bool): If True, use 'arb. units' for the y-label and save as *_NORM.png.
+    
+        Returns:
+            None
+        """
+        import matplotlib.pyplot as plt
+    
+        plt.figure(figsize=(10, 6))
+        plt.plot(freqs, roa_spec, linestyle='-')
+        plt.gca().invert_xaxis()
+        plt.xlabel('Wavenumber (cm$^{-1}$)')
+        plt.ylabel('I$_R$ - I$_L$ (arb. units)' if normalize else 'I$_R$ - I$_L$ (a.u.)')
+        plt.title(f'ROA Spectrum - {pol.upper()}')
+        plt.grid(True)
+    
+        output_filename = f'ROA_spectrum_{pol}_NORM.png' if normalize else f'ROA_spectrum_{pol}.png'
+        plt.savefig(output_filename, dpi=300, bbox_inches='tight')
+        plt.show()
+    # -------------------------------------------------------------------------------------
     # Read vibrational frequencies and intensities from the AMS file,
     # then generate, process, plot, and save the ROA spectrum.
     freq_cm, raman_int = read_roa_data(inp)
     freqs, raman_spec = generate_and_save_roa_spectrum(inp, freq_cm, raman_int)
-    #plot_raman_spectrum(freqs, raman_spec, normalize=inp.norm)
-
+    plot_roa_spectrum(freqs, raman_spec, inp.pol, normalize=inp.norm)
 
    

@@ -1,11 +1,11 @@
 class parameters:
     """
-    Manages user-defined parameters for Raman/ROA data extraction
+    Stores and manages fixed parameters and constants for Raman/ROA data extraction.
     """
 
     def __init__(self):
         """
-        Initializes input parameters for Raman/ROA data extraction.
+        Initializes fixed parameters and constants for Raman/ROA data extraction.
         """
 
         self.fwhm    = 20.0 # cm^{-1} Taken from: https://doi.org/10.1021/jp502107f
