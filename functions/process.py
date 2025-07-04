@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from classes import parameters
+from matplotlib.ticker import ScalarFormatter
 
 param = parameters.parameters()
 # =====================================================================================
@@ -277,7 +278,12 @@ def roa(inp):
             None
         """
     
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(8, 6))
+        plt.rcParams['font.family'] = 'Times New Roman'
+
+        fontsize_label = 22
+        fontsize_ticks = 20
+        
         colors = ['blue', 'red']
         labels = ['File 1', 'File 2']
     
@@ -285,18 +291,39 @@ def roa(inp):
         if isinstance(results, tuple):
             results = [results]
     
+        plt.axhline(y=0, color='black', linestyle='--', linewidth=1, alpha=0.5)
+
+
         for idx, (freqs, roa_spec) in enumerate(results):
             color = colors[idx % len(colors)]
             label = labels[idx] if len(results) > 1 else None
             plt.plot(freqs, roa_spec, linestyle='-', color=color, label=label)
     
-        plt.gca().invert_xaxis()
-        plt.xlabel('Wavenumber (cm$^{-1}$)')
-        plt.ylabel('I$_R$ - I$_L$ (arb. units)' if normalize else 'I$_R$ - I$_L$ (a.u.)')
-        plt.title(f'ROA Spectrum - {pol.upper()}')
+        # Set y-limits with margin
+        all_y = np.concatenate([np.abs(roa_spec) for _, roa_spec in results])
+        ymax = all_y.max()
+        margin = 1.10
+        plt.ylim(-ymax * margin, ymax * margin)
+
+        ax = plt.gca()
+        formatter = ScalarFormatter(useMathText=True)
+        formatter.set_powerlimits((0, 0))  # Always use scientific notation
+        ax.yaxis.set_major_formatter(formatter)
+        ax.ticklabel_format(axis='y', style='sci', scilimits=(0,0))
+        
+        # Make the offset text (e.g., ×10¹⁵) larger and in Times New Roman
+        ax.yaxis.offsetText.set_fontsize(fontsize_ticks)
+        ax.yaxis.offsetText.set_fontname('Times New Roman')
+        #
+        plt.xlabel('Wavenumber (cm$^{-1}$)', fontsize=fontsize_label, fontname='Times New Roman',labelpad=10)
+        plt.ylabel('I$_R$ - I$_L$ (arb. units)' if normalize else 'I$_R$ - I$_L$ (a.u.)', fontsize=fontsize_label, fontname='Times New Roman')
+        #plt.title(f'ROA Spectrum - {pol.upper()}', fontname='Times New Roman')
+        plt.xticks(fontsize=fontsize_ticks, fontname='Times New Roman')
+        plt.yticks(fontsize=fontsize_ticks, fontname='Times New Roman')
         plt.grid(False)
         #if len(results) > 1:
         #    plt.legend()
+        plt.tight_layout()
         output_filename = f'ROA_spectrum_{pol}_NORM.png' if normalize else f'ROA_spectrum_{pol}.png'
         plt.savefig(output_filename, dpi=300, bbox_inches='tight')
         plt.show()
