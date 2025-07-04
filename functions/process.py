@@ -128,13 +128,30 @@ def raman(inp):
             None
         """
     
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(8, 6))
+        plt.rcParams['font.family'] = 'Times New Roman'
+
+        fontsize_label = 22
+        fontsize_ticks = 20
+
         plt.plot(freqs, raman_spec, linestyle='-', color='blue')
-        plt.gca().invert_xaxis()
-        plt.xlabel('Wavenumber (cm$^{-1}$)')
-        plt.ylabel('Raman Intensity (arb. units)' if normalize else 'Raman Intensity (a.u.)')
+        plt.xlabel('Wavenumber (cm$^{-1}$)', fontsize=fontsize_label, fontname='Times New Roman', labelpad=10)
+        plt.ylabel('Raman Intensity (arb. units)' if normalize else 'Raman Intensity (a.u.)',
+                   fontsize=fontsize_label, fontname='Times New Roman')
+        plt.xticks(fontsize=fontsize_ticks, fontname='Times New Roman')
+        plt.yticks(fontsize=fontsize_ticks, fontname='Times New Roman')
         plt.grid(False)
-    
+
+        # Add scientific notation offset (e.g., ×10¹⁵) to y-axis
+        ax = plt.gca()
+        formatter = ScalarFormatter(useMathText=True)
+        formatter.set_powerlimits((0, 0))  # Always use scientific notation
+        ax.yaxis.set_major_formatter(formatter)
+        ax.ticklabel_format(axis='y', style='sci', scilimits=(0,0))
+        ax.yaxis.offsetText.set_fontsize(fontsize_ticks)
+        ax.yaxis.offsetText.set_fontname('Times New Roman')
+
+        plt.tight_layout()
         output_filename = 'RAMAN_spectrum_NORM.png' if normalize else 'RAMAN_spectrum.png'
         plt.savefig(output_filename, dpi=300, bbox_inches='tight')
         plt.show()
@@ -316,7 +333,8 @@ def roa(inp):
         ax.yaxis.offsetText.set_fontname('Times New Roman')
         #
         plt.xlabel('Wavenumber (cm$^{-1}$)', fontsize=fontsize_label, fontname='Times New Roman',labelpad=10)
-        plt.ylabel('I$_R$ - I$_L$ (arb. units)' if normalize else 'I$_R$ - I$_L$ (a.u.)', fontsize=fontsize_label, fontname='Times New Roman')
+        plt.ylabel('I$_R$ - I$_L$ (arb. units)' if normalize else 'I$_R$ - I$_L$ (a.u.)',
+           fontsize=fontsize_label, fontname='Times New Roman')
         #plt.title(f'ROA Spectrum - {pol.upper()}', fontname='Times New Roman')
         plt.xticks(fontsize=fontsize_ticks, fontname='Times New Roman')
         plt.yticks(fontsize=fontsize_ticks, fontname='Times New Roman')
