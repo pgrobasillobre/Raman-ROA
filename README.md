@@ -1,4 +1,4 @@
-# Raman-ROA-main
+# Plot Raman / ROA
 
 Creation of plots from Amsterdam Modelling Suite outputs for Raman / Raman Optical Activity (ROA) calculations.
 
